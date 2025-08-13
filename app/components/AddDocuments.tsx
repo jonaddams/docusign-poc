@@ -1,8 +1,6 @@
 import Image from 'next/image';
 
-interface AddDocumentsProps {}
-
-export default function AddDocuments({}: AddDocumentsProps) {
+export default function AddDocuments() {
   return (
     <section className="mb-4" style={{borderBottom: '1px solid rgb(169, 169, 169)'}}>
       <div className="flex justify-between items-center pb-2 pt-6">

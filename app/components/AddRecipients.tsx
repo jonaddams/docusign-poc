@@ -1,8 +1,6 @@
 import Image from 'next/image';
 
-interface AddRecipientsProps {}
-
-export default function AddRecipients({}: AddRecipientsProps) {
+export default function AddRecipients() {
   return (
     <section className="mb-4" style={{borderBottom: '1px solid rgb(169, 169, 169)'}}>
       <div className="flex justify-between items-center py-2">
@@ -15,7 +13,7 @@ export default function AddRecipients({}: AddRecipientsProps) {
         <div className="flex items-center mb-4 gap-2">
           <label className="flex items-center cursor-pointer text-sm text-gray-900">
             <input type="checkbox" defaultChecked className="w-4 h-4 mr-2" />
-            I'm the only signer
+            I&apos;m the only signer
           </label>
           <button className="border border-gray-300 rounded-full w-5 h-5 flex items-center justify-center text-gray-600">
             <Image src="/info.svg" alt="Info" width={12} height={12} />

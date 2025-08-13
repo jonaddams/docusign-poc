@@ -1,8 +1,6 @@
 import Image from 'next/image';
 
-interface AddMessageProps {}
-
-export default function AddMessage({}: AddMessageProps) {
+export default function AddMessage() {
   return (
     <section className="mb-4">
       <div className="flex justify-between items-center py-6">

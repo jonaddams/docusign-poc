@@ -1,8 +1,6 @@
 import Image from 'next/image';
 
-interface HeaderProps {}
-
-export default function Header({}: HeaderProps) {
+export default function Header() {
   return (
     <header className="bg-white px-6 h-14 flex items-center justify-between">
       <div className="flex items-center gap-4">
