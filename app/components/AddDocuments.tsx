@@ -1,13 +1,24 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useState } from "react";
-import Viewer from "./Viewer";
+import { type ComponentType, useState } from "react";
+
+type ViewerProps = { document: string | ArrayBuffer; toolbarConfig?: string };
+
+const Viewer = dynamic(() => import("./Viewer"), { ssr: false }) as ComponentType<ViewerProps>;
 
 export default function AddDocuments() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [modalMode, setModalMode] = useState<"view" | "edit">("edit");
 
 	const handleEditClick = () => {
+		setModalMode("edit");
+		setIsModalOpen(true);
+	};
+
+	const handleViewClick = () => {
+		setModalMode("view");
 		setIsModalOpen(true);
 	};
 
@@ -65,6 +76,7 @@ export default function AddDocuments() {
 										<button
 											type="button"
 											className="bg-black bg-opacity-80 text-white px-4 py-2 rounded text-sm cursor-pointer"
+											onClick={handleViewClick}
 										>
 											View
 										</button>
@@ -151,7 +163,8 @@ export default function AddDocuments() {
 						{/* Modal Header */}
 						<div className="flex justify-between items-center p-4 border-b border-gray-200">
 							<h3 className="text-lg font-medium text-gray-900">
-								Edit {process.env.NEXT_PUBLIC_DOCUMENT || "Document"}
+								{modalMode === "edit" ? "Edit" : "View"}{" "}
+								{process.env.NEXT_PUBLIC_DOCUMENT || "Document"}
 							</h3>
 							<button
 								type="button"
@@ -166,6 +179,11 @@ export default function AddDocuments() {
 						<div className="flex-1 overflow-hidden">
 							<Viewer
 								document={`/documents/${process.env.NEXT_PUBLIC_DOCUMENT || ""}`}
+								toolbarConfig={
+									(modalMode === "edit"
+										? process.env.NEXT_PUBLIC_DOCUMENT_EDIT_CONFIG
+										: process.env.NEXT_PUBLIC_DOCUMENT_VIEW_CONFIG) as string | undefined
+								}
 							/>
 						</div>
 					</div>
