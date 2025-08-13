@@ -17,6 +17,15 @@ export default function Viewer({ document }: ViewerProps) {
 			NutrientViewer.load({
 				container,
 				document: document,
+				licenseKey: process.env.NEXT_PUBLIC_WEB_SDK_KEY || "",
+				toolbarItems: [
+					{ type: "pager" },
+					{ type: "zoom-out" },
+					{ type: "zoom-in" },
+					{ type: "zoom-mode" },
+					{ type: "document-editor" },
+					{ type: "content-editor" },
+				],
 			});
 		}
 
