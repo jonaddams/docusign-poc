@@ -101,6 +101,13 @@ export default function Viewer({ document, toolbarConfig }: ViewerProps) {
 				.then((instance: EnhancedViewerInstance) => {
 					viewerInstanceRef.current = instance;
 
+					// Auto-launch Content Editor if in edit mode
+					if (toolbarConfig === "edit" && window.NutrientViewer) {
+						instance.setViewState((v) =>
+							v.set("interactionMode", window.NutrientViewer.InteractionMode.CONTENT_EDITOR)
+						);
+					}
+
 					// Store function references on the instance for toolbar items to use
 					instance.handleAddPageFromToolbar = async () => {
 						try {
