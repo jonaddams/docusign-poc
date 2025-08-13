@@ -40,39 +40,21 @@ export default function AddDocuments() {
 					<div className="w-50">
 						<div className="relative bg-gray-100 border border-gray-200 rounded-lg overflow-hidden h-70 group">
 							<div className="relative h-full flex flex-col">
-								<div className="p-4 flex-1 overflow-hidden text-xs leading-tight text-gray-800">
-									<div className="font-bold text-center mb-2 text-[9px]">
-										BUSINESS CONSULTANT AGREEMENT
-									</div>
-									<div className="space-y-1">
-										<p className="text-[8px]">
-											This Parties: Independent Contractor is made between or on
-											behalf of:
-										</p>
-										<p className="text-[8px]">Company Information:</p>
-										<p className="text-[8px]">
-											Name: ________________________________
-										</p>
-										<p className="text-[8px]">
-											_____________________________________
-										</p>
-										<p className="text-[8px]">
-											Additional Documents: _______________
-										</p>
-										<p className="text-[8px]">
-											Date: ________________ City, of Date of such contract
-										</p>
-										<p className="text-[8px]">
-											_____________________________________
-										</p>
-									</div>
+								<div className="flex-1 overflow-hidden">
+									<Image
+										src="/document-preview.png"
+										alt="Document preview"
+										width={200}
+										height={280}
+										className="w-full h-full object-cover"
+									/>
 								</div>
 								<div className="bg-white p-3 border-t border-gray-200 flex justify-between items-start">
 									<div>
 										<h3 className="text-sm font-medium text-gray-900 mb-1">
 											Business Consultant A...
 										</h3>
-										<div className="text-xs text-gray-600">6 pages</div>
+										<div className="text-xs text-gray-600">24 pages</div>
 									</div>
 									<button type="button" className="text-gray-500 text-base">
 										⋮
