@@ -103,8 +103,9 @@ export default function Viewer({ document, toolbarConfig }: ViewerProps) {
 
 					// Auto-launch Content Editor if in edit mode
 					if (toolbarConfig === "edit" && window.NutrientViewer) {
+						const { NutrientViewer } = window;
 						instance.setViewState((v) =>
-							v.set("interactionMode", window.NutrientViewer.InteractionMode.CONTENT_EDITOR)
+							v.set("interactionMode", NutrientViewer.InteractionMode.CONTENT_EDITOR)
 						);
 					}
 
