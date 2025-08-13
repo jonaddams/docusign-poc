@@ -179,11 +179,7 @@ export default function AddDocuments() {
 						<div className="flex-1 overflow-hidden">
 							<Viewer
 								document={`/documents/${process.env.NEXT_PUBLIC_DOCUMENT || ""}`}
-								toolbarConfig={
-									(modalMode === "edit"
-										? process.env.NEXT_PUBLIC_DOCUMENT_EDIT_CONFIG
-										: process.env.NEXT_PUBLIC_DOCUMENT_VIEW_CONFIG) as string | undefined
-								}
+								toolbarConfig={modalMode === "edit" ? "edit" : "view"}
 							/>
 						</div>
 					</div>
