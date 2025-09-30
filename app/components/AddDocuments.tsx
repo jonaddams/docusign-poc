@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { type ComponentType, useState } from "react";
+import { type ComponentType, useState, useRef } from "react";
 
 type ViewerProps = { document: string | ArrayBuffer; toolbarConfig?: string };
 
@@ -11,6 +11,9 @@ const Viewer = dynamic(() => import("./Viewer"), { ssr: false }) as ComponentTyp
 export default function AddDocuments() {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [modalMode, setModalMode] = useState<"view" | "edit">("edit");
+	const [uploadedDocument, setUploadedDocument] = useState<string | ArrayBuffer | null>(null);
+	const [isDragging, setIsDragging] = useState(false);
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
 	const handleEditClick = () => {
 		setModalMode("edit");
@@ -24,6 +27,50 @@ export default function AddDocuments() {
 
 	const handleCloseModal = () => {
 		setIsModalOpen(false);
+	};
+
+	const handleFileUpload = (file: File) => {
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			const result = e.target?.result;
+			if (result) {
+				setUploadedDocument(result);
+				setModalMode("edit");
+				setIsModalOpen(true);
+			}
+		};
+		reader.readAsArrayBuffer(file);
+	};
+
+	const handleUploadClick = () => {
+		fileInputRef.current?.click();
+	};
+
+	const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file) {
+			handleFileUpload(file);
+		}
+	};
+
+	const handleDragOver = (e: React.DragEvent) => {
+		e.preventDefault();
+		setIsDragging(true);
+	};
+
+	const handleDragLeave = (e: React.DragEvent) => {
+		e.preventDefault();
+		setIsDragging(false);
+	};
+
+	const handleDrop = (e: React.DragEvent) => {
+		e.preventDefault();
+		setIsDragging(false);
+
+		const file = e.dataTransfer.files?.[0];
+		if (file) {
+			handleFileUpload(file);
+		}
 	};
 	return (
 		<section
@@ -107,8 +154,21 @@ export default function AddDocuments() {
 				</div>
 				<div
 					className="flex-1 min-h-70 rounded-lg flex flex-col items-center justify-center hover:bg-purple-50 transition-colors"
-					style={{ backgroundColor: "rgb(240, 239, 241)" }}
+					style={{
+						backgroundColor: isDragging ? "rgb(230, 225, 235)" : "rgb(240, 239, 241)",
+						border: isDragging ? "2px dashed #4c00fb" : "2px dashed transparent"
+					}}
+					onDragOver={handleDragOver}
+					onDragLeave={handleDragLeave}
+					onDrop={handleDrop}
 				>
+					<input
+						ref={fileInputRef}
+						type="file"
+						accept=".pdf"
+						onChange={handleFileInputChange}
+						style={{ display: "none" }}
+					/>
 					<div
 						className="mb-4 flex p-2 rounded-xl border border-white border-opacity-10"
 						style={{ backgroundColor: "rgba(26, 29, 32, 0.1)" }}
@@ -126,6 +186,7 @@ export default function AddDocuments() {
 					</p>
 					<button
 						type="button"
+						onClick={handleUploadClick}
 						className="inline-flex items-center justify-center text-white rounded font-ds-indigo transition-colors duration-100"
 						style={{
 							backgroundColor: "#4c00fb",
@@ -178,7 +239,7 @@ export default function AddDocuments() {
 						{/* Modal Body */}
 						<div className="flex-1 overflow-hidden">
 							<Viewer
-								document={`/documents/${process.env.NEXT_PUBLIC_DOCUMENT || ""}`}
+								document={uploadedDocument || `/documents/${process.env.NEXT_PUBLIC_DOCUMENT || ""}`}
 								toolbarConfig={modalMode === "edit" ? "edit" : "view"}
 							/>
 						</div>

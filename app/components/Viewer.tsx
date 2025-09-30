@@ -105,7 +105,10 @@ export default function Viewer({ document, toolbarConfig }: ViewerProps) {
 					if (toolbarConfig === "edit" && window.NutrientViewer) {
 						const { NutrientViewer } = window;
 						instance.setViewState((v) =>
-							v.set("interactionMode", NutrientViewer.InteractionMode.CONTENT_EDITOR)
+							v.set(
+								"interactionMode",
+								NutrientViewer.InteractionMode.CONTENT_EDITOR,
+							),
 						);
 					}
 
